@@ -11,6 +11,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(FoodsTableSeeder::class);
+        $this->call(ExercisesTableSeeder::class);
+        $this->call(FoodUserTableSeeder::class);
+        $this->call(ExerciseUserTableSeeder::class);
+        $path = 'app/Developer_docs/food table.sql';
+        $path = 'app/Developer_docs/exercise table.sql';
+        DB::unprepared(file_get_contents($path));
     }
 }
