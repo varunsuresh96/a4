@@ -318,33 +318,33 @@ class CalculateController extends Controller
 
         $exerciseId=$exercise->id;
 
-$users = User::where('name','=',$user)->first();
+        $users = User::where('name','=',$user)->first();
 
-$users->exercises()->detach();
-$users->save();
-$exercise->delete();
+        //Detach exercise from user and then delete the exercise.
+        $users->exercises()->detach();
+        $users->save();
+        $exercise->delete();
 
-return view('bmi.exerciseDeleted')->with([
-  'exercise' => $exercise
-]);
-
-}
-
-public function getCaloriesRequired($user)
-{
-  $caloriesRequired=User::where('name','=',$user)->pluck('caloriesRequired');
-  return $caloriesRequired[0];
-}
-
-  public function login(Request $request)
-  {
-
-    $user = $request->user();
-    if($user!=null){
-      return redirect('/home');
+        return view('bmi.exerciseDeleted')->with([
+            'exercise' => $exercise
+        ]);
     }
-    return view('auth.login');
-  }
+
+    public function getCaloriesRequired($user)
+    {
+        $caloriesRequired=User::where('name','=',$user)->pluck('caloriesRequired');
+        return $caloriesRequired[0];
+    }
+
+    public function login(Request $request)
+    {
+        $user = $request->user();
+        if($user!=null)
+        {
+            return redirect('/home');
+        }
+        return view('auth.login');
+    }
 
 
 public function virtualCoach(Request $request)
