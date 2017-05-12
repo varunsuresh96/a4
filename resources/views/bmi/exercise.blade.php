@@ -10,7 +10,7 @@
         <fieldset>
 
           <div class="form-group">
-              <p><b>What did you eat today?</b></p>
+              <p><b>What exercise did you do today?</b></p>
               <input list="exercise" autocomplete="off" autofocus class="form-control" name="exercise" placeholder="Exercise" type="text"/>
               <datalist id="exercise">
                 @foreach($exerciseList as $exercise)
@@ -27,15 +27,15 @@
 
         </fieldset>
     </form>
-
     <h4>Exercises you did today:- </h4>
+    <br>
     @if(count($users->exercises)==0)
       <h5>Nothing yet!</5>
     @else
     <table>
     <tr>
-        <th>Exercise</th>
-        <th>Calories</th>
+        <th><div class="underline">Exercise</div></th>
+        <th><div class="underline">Calories</div></th>
 
     </tr>
       @foreach($users->exercises as $exercise)
@@ -45,6 +45,7 @@
       </tr>
     @endforeach
 </table>
+<br><br>
 @endif
 
 @endsection

@@ -26,9 +26,11 @@
     </form>
 
     <h4>Things you ate today:- </h4>
+    <br>
     @if(count($users->foods)==0)
       <h5>Nothing yet!</5>
     @else
+
     <table>
     <tr>
         <th>Nutrition</th>
@@ -42,6 +44,7 @@
       </tr>
     @endforeach
 </table>
+<br><br>
 @endif
 
 @endsection

@@ -2,7 +2,7 @@
 <html>
 	  <head>
 		    <title>
-            @yield('title', 'BMI Calculator')
+            @yield('title', 'Lifestyle Buddy')
 				</title>
 
 				<meta charset='utf-8'>

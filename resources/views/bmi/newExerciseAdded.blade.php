@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <h1>New Exercise Added!</h1>
+    <h1>'{{$exercise->exercise}}' has been Added!</h1>
 
 
 

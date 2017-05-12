@@ -3,5 +3,5 @@
 
 @section('content')
 
-    <h1>New Food Added!</h1>
+    <h1>'{{$food->food}}' has been Added!</h1>
 @endsection

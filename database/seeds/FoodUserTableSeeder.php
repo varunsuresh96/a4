@@ -13,23 +13,20 @@ class FoodUserTableSeeder extends Seeder
     public function run()
     {
       $users =[
-      'abcabc' => ['food1','food2','food3'],
-      '123123' => ['food4','food5','food6']
+      'John' => array(array('Egg boiled',80),array('Curd',100),array('Chapati',60)),
+      'Linda' => array(array('Salad',100),array('Chinese noodles',450),array('Pizza',400))
 
 
   ];
 
-  # Now loop through the above array, creating a new pivot for each book to tag
   foreach($users as $name => $foods) {
 
-      # First get the book
+
       $user = User::where('name','like',$name)->first();
 
-      # Now loop through each tag for this book, adding the pivot
       foreach($foods as $foodName) {
           $food = Food::where('food','LIKE',$foodName)->first();
 
-          # Connect this tag to this book
           $user->foods()->save($food);
       }
 

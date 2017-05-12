@@ -2,7 +2,6 @@
 @extends('layouts.master')
 
 @section('content')
-<h1>Progress Report</h1>
 <div id="chartContainer" style="height: 450px; width: 100%;"></div>
 <div><br><br></div>
 <div id="chartContainer2" style="height: 450px; width: 100%;"></div>

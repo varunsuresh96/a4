@@ -80,7 +80,7 @@ class CalculateController extends Controller
         ]);
     }
 
-    public function index(Request $request)
+    public function home(Request $request)
     {
       $user = $request->user()->name;
       if($this->getCaloriesRequired($user)==null){
@@ -159,7 +159,9 @@ class CalculateController extends Controller
     $food->calories=$request->newCalories;
     $food->save();
 
-    return view('bmi.newFoodAdded');
+    return view('bmi.newFoodAdded')->with([
+      'food' =>$food
+    ]);
       }
 
       public function deleteFood(Request $request){
@@ -206,7 +208,9 @@ class CalculateController extends Controller
       $users->save();
       $food->delete();
 
-      return view('bmi.foodDeleted');
+      return view('bmi.foodDeleted')->with([
+        'food' =>$food
+      ]);
         }
 
 
@@ -281,7 +285,9 @@ class CalculateController extends Controller
   $exercise->calories=$request->newCalories;
   $exercise->save();
 
-  return view('bmi.newExerciseAdded');
+  return view('bmi.newExerciseAdded')->with([
+    'exercise' =>$exercise
+  ]);
     }
 
     public function deleteExercise(Request $request){
@@ -325,7 +331,9 @@ $users->exercises()->detach();
 $users->save();
 $exercise->delete();
 
-return view('bmi.exerciseDeleted');
+return view('bmi.exerciseDeleted')->with([
+  'exercise' => $exercise
+]);
 
 }
 
@@ -335,22 +343,19 @@ public function getCaloriesRequired($user)
   return $caloriesRequired[0];
 }
 
-public function logout(Request $request)
-{
-  $user = $request->user();
-  if($user==null)
-  return view('bmi.logout');
-  else {
-    return redirect()->back();
+  public function login()
+  {
+    return view('auth.login');
   }
-}
+
 
 public function virtualCoach(Request $request)
 {
   $user = $request->user()->name;
+
   if($this->getCaloriesRequired($user)==null){
     return redirect('/bmi');
-
+  }
     $calArray=$this->calculateCalories($user);
     $consumed=false;
 
@@ -367,7 +372,6 @@ public function virtualCoach(Request $request)
         'consumed' => $consumed
     ]);
 }
-}
 
 public function calculateCalories($user){
   $userRow=User::where('name','=',$user)->first();
@@ -376,13 +380,20 @@ public function calculateCalories($user){
   $userId=$userRow->id;
   $caloriesConsumed=0;
   $caloriesBurned=0;
+  $date=new \DateTime('today');
 
   foreach($userRow->foods as $food) {
+      if($food->pivot->created_at>=$date){
       $caloriesConsumed+=$food->calories;
+    }
   }
 
+  dump($caloriesConsumed);
+
   foreach($userRow->exercises as $exercise) {
+      if($exercise->pivot->created_at>=$date){
       $caloriesBurned+=$exercise->calories;
+    }
   }
 
   $caloriesLeft1=$caloriesRequired-$caloriesConsumed;

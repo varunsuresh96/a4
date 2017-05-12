@@ -14,9 +14,9 @@ class UsersTableSeeder extends Seeder
      {
        $user = \App\User::firstOrCreate([
 
-               'name' => '123123',
+               'name' => 'John',
 
-               'password' => \Hash::make('123123'),
+               'password' => \Hash::make('John'),
 
                'caloriesRequired' => '1500',
 
@@ -25,13 +25,13 @@ class UsersTableSeeder extends Seeder
 
              $user = \App\User::firstOrCreate([
 
-                     'name' => 'abcabc',
+                     'name' => 'Linda',
 
-                     'password' => \Hash::make('abcabc'),
+                     'password' => \Hash::make('Linda'),
 
                      'caloriesRequired' => '1360',
 
-                     'goal' => 'lose'
+                     'goal' => 'gain'
                    ]);
      }
 }

@@ -3,5 +3,5 @@
 
 @section('content')
 
-    <h1>Exercise Deleted!</h1>
+    <h1>'{{$exercise->exercise}}' has been Deleted!</h1>
 @endsection

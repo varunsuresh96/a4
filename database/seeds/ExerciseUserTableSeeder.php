@@ -14,23 +14,18 @@ class ExerciseUserTableSeeder extends Seeder
     public function run()
     {
       $users =[
-      'abcabc' => ['ex1','ex2','ex3'],
-      '123123' => ['ex1','ex2','ex3']
-
-
+      'John' => array(array('Cycling, <10 mph, leisure bicycling',236),array('Cycling, 16-19 mph, very fast, racing',670),array('Unicycling',295)),
+      'Linda' => array(array('Dancing,competitive',450),array('Pool table',100),array('Swimming',600))
   ];
 
-  # Now loop through the above array, creating a new pivot for each book to tag
   foreach($users as $name => $exercises) {
 
-      # First get the book
       $user = User::where('name','like',$name)->first();
 
-      # Now loop through each tag for this book, adding the pivot
       foreach($exercises as $exerciseName) {
           $exercise = Exercise::where('exercise','=',$exerciseName)->first();
 
-          # Connect this tag to this book
+
           $user->exercises()->save($exercise);
       }
 

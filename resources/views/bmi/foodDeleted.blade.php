@@ -3,5 +3,5 @@
 
 @section('content')
 
-    <h1>Food Deleted!</h1>
+    <h1>'{{$food->food}}' has been Deleted!</h1>
 @endsection
