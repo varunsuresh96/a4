@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <h1>Nutrition</h1>
+    <h1>Food</h1>
 
     <form method="GET" id='nutrition' action="/food">
         <fieldset>
@@ -17,6 +17,7 @@
                   @endforeach
                 </datalist>
             </div>
+
             <div class="form-group">
                 <button class="btn btn-default" type="submit">Add</button>
             <div>

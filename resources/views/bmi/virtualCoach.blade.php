@@ -22,11 +22,11 @@ requirement.
 @endif
 
 @if($caloriesRequired<$caloriesConsumed AND $caloriesRequired+500>$caloriesConsumed)
-<div class="info">consumed the required number of calories for the day. Good job ! </div>
+consumed the required number of calories for the day. Good job ! </div>
 @endif
 
 @if($caloriesRequired+500<$caloriesConsumed)
-<div class="info">consumed a considerably higher number of calories than that is required. You might want to watch out on what you eat for the rest of the day since
+consumed a considerably higher number of calories than that is required. You might want to watch out on what you eat for the rest of the day since
 you are already above your required calorie intake! </div>
 @endif
 </div>
@@ -35,23 +35,22 @@ you are already above your required calorie intake! </div>
 <div class="underline"><h3>Exercise</h3></div>
 <div class="info">Based on our analysis, you have
  @if($caloriesRequired>$caloriesBurned)
-not yet burned the required number of calories for today. You still need to burn {{$caloriesLeft2}} to meet your daily
+not yet burned the required number of calories for today. You still need to burn {{$caloriesLeft2+500}} to meet your daily
 requirement.
 <br><br>Don't worry about it ! Might I suggest a couple of tips to help you burn the required calories to meet your goals?</div>
 <br><div class="underline info">How about you try these techniques:-</div>
-<br><div class="info">How about you try these techniques:-
-<br>1) If at all possible, exercise first thing in the morning.
+<br><div class="info">1) If at all possible, exercise first thing in the morning.
 <br>2) Give yourself credit for the smallest effort.
 <br>3) Start slow and gradually increase the intensity.
 <br>4) Try to incorperate your interests and passions into your exercise routine (Eg.dancing, trekking, sports).</div>
 @endif
 
 @if($caloriesRequired<$caloriesBurned AND $caloriesRequired+500>$caloriesBurned)
-<div class="info">burned the required number of calories for the day. Good job ! </div>
+burned the required number of calories for the day. Good job ! </div>
 @endif
 
-@if($caloriesRequired+500<$caloriesConsumed)
-<div class="info">burned a considerably higher number of calories than that is required. Slow down there buddy ! You might want to stop working out
+@if($caloriesRequired+500<$caloriesBurned)
+burned a considerably higher number of calories than that is required. Slow down there buddy ! You might want to stop working out
 for the day since you are already above the required calories to be burned! <div>
 @endif
 

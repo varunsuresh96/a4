@@ -89,6 +89,7 @@ class CalculateController extends Controller
 
       $calArray=$this->calculateCalories($user);
 
+
         return view('bmi.home')->with([
             'caloriesConsumed' => round(($calArray[2]/$calArray[1])*100,2),
             'caloriesLeft1' => round(($calArray[3]/$calArray[1])*100,2),
@@ -114,7 +115,6 @@ class CalculateController extends Controller
       $users = User::where('name','=',$user)->first();
       $users->save();
       $users->foods()->attach($foodId);
-
 
       return view('bmi.food')->with([
         'foodList'=>$foodList,
@@ -150,8 +150,6 @@ class CalculateController extends Controller
   'newCalories.required' => 'Please enter a calorific value',
   'newCalories.numeric' => 'Please enter a numerical value for calories',
   'newCalories.min' => 'Please enter a positive value for calories',
-
-
 ]);
 
     $food= new Food();
@@ -223,11 +221,6 @@ class CalculateController extends Controller
         return redirect('/bmi');
       }
 
-      $user = $request->user()->name;
-      $caloriesRequired=User::where('name','=',$user)->pluck('caloriesRequired');
-      if($caloriesRequired==null){
-        redirectTo(bmi.index);
-      }
       $exercise= new Exercise();
       $exerciseList= $exercise->pluck('exercise');
 
@@ -252,6 +245,7 @@ class CalculateController extends Controller
       $user = $request->user()->name;
       if($this->getCaloriesRequired($user)==null){
         return redirect('/bmi');
+
       }
       return view('bmi.newExercise');
 
@@ -401,7 +395,8 @@ public function calculateCalories($user){
   }
 
   $caloriesLeft1=$caloriesRequired-$caloriesConsumed;
-  $caloriesLeft2=$caloriesRequired-$caloriesBurned;
+
+      $caloriesLeft2=$caloriesRequired-$caloriesBurned;
 
 
   $calArray=[$user,$caloriesRequired,$caloriesConsumed,$caloriesLeft1,$caloriesBurned,$caloriesLeft2];

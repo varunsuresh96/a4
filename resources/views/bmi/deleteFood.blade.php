@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <h1>Nutrition</h1>
+    <h1>Delete Food</h1>
 
 
     <form method="POST" id='nutrition' action="/deletefood">
