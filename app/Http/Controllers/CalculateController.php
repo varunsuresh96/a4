@@ -11,6 +11,7 @@ use App\User;
 
 class CalculateController extends Controller
 {
+    //This function calculates the users BMI
     public function bmi(Request $request)
     {
       // Validate the user inputs and if validation fails, return the custom error messages.
@@ -55,6 +56,7 @@ class CalculateController extends Controller
             $bmi=$bmiObject->bmiCal($weight,$height);
             $calories=$bmiObject->caloriesCal($weight, $height,$gender,$age,$activity,$goal);
 
+            //Update caloriesReuired, activity level and goal each time the person checks their BMI.
             $user = $request->user()->name;
             $userCal=User::where('name','=',$user)->first();
             $userCal->caloriesRequired=$calories;
@@ -78,6 +80,10 @@ class CalculateController extends Controller
         ]);
     }
 
+    /* This function renders two pie charts describing the percentage of calories left to be consumed and
+       exercise left to be performed.
+    */
+
     public function home(Request $request)
     {
         $user = $request->user()->name;
@@ -100,6 +106,7 @@ class CalculateController extends Controller
         ]);
     }
 
+    //This function can be used to add a food item to the list of food consumed by the user
     public function food(Request $request)
     {
         $user = $request->user()->name;
@@ -126,6 +133,7 @@ class CalculateController extends Controller
         ]);
     }
 
+    // This function is used to add a new food item to the database.
     public function newFood(Request $request)
     {
         $user = $request->user()->name;
@@ -135,7 +143,7 @@ class CalculateController extends Controller
         }
         return view('bmi.newFood');
     }
-
+    // This page validates and connects the food item to the user.
     public function newFoodAdded(Request $request)
     {
         $user = $request->user()->name;
@@ -167,6 +175,7 @@ class CalculateController extends Controller
         ]);
     }
 
+    //This function deletes a food item from the food table.
     public function deleteFood(Request $request)
     {
         $user = $request->user()->name;
@@ -183,6 +192,7 @@ class CalculateController extends Controller
         ]);
     }
 
+    //This function validates and detaches the food item from the user.
     public function foodDeleted(Request $request)
     {
         $user = $request->user()->name;
@@ -213,6 +223,7 @@ class CalculateController extends Controller
         ]);
     }
 
+    //This function adds the exercise to the list of exercises performed by the user.
     public function exercise(Request $request)
     {
         $user = $request->user()->name;
@@ -237,7 +248,7 @@ class CalculateController extends Controller
             'users'=>$users
         ]);
     }
-
+    // This function adds a new exercise to the exercise table.
     public function newExercise(Request $request)
     {
         $user = $request->user()->name;
@@ -248,6 +259,7 @@ class CalculateController extends Controller
         return view('bmi.newExercise');
     }
 
+    // This function validates and stores the exercise in the exercise table.
     public function newExerciseAdded(Request $request)
     {
         $user = $request->user()->name;
@@ -281,6 +293,7 @@ class CalculateController extends Controller
         ]);
     }
 
+    // This function is used to delete an exercise from the exercise table.
     public function deleteExercise(Request $request)
     {
         $user = $request->user()->name;
@@ -297,6 +310,7 @@ class CalculateController extends Controller
         ]);
     }
 
+    // This function validates and detaches the exercise from the user and then deletes it from the table.
     public function exerciseDeleted(Request $request)
     {
         $user = $request->user()->name;
@@ -330,12 +344,14 @@ class CalculateController extends Controller
         ]);
     }
 
+    //This function returns the calories required for the user who is currently logged in.
     public function getCaloriesRequired($user)
     {
         $caloriesRequired=User::where('name','=',$user)->pluck('caloriesRequired');
         return $caloriesRequired[0];
     }
 
+    //This function redirects user if he tries to access /login while he is already logged in.
     public function login(Request $request)
     {
         $user = $request->user();
@@ -346,62 +362,68 @@ class CalculateController extends Controller
         return view('auth.login');
     }
 
+    /* This function calls upon a virtual coach page. This page has text that changes based on how you are doing
+       based on your calories consumed and calories burned.
+    */
+    public function virtualCoach(Request $request)
+    {
+        $user = $request->user()->name;
 
-public function virtualCoach(Request $request)
-{
-  $user = $request->user()->name;
+        if($this->getCaloriesRequired($user)==null)
+        {
+            return redirect('/bmi');
+        }
 
-  if($this->getCaloriesRequired($user)==null){
-    return redirect('/bmi');
-  }
-    $calArray=$this->calculateCalories($user);
-    $consumed=false;
+        $calArray=$this->calculateCalories($user);
+        $consumed=false;
 
-    if($calArray[1]>$calArray[2]){
-        $consumed=true;
+        return view('bmi.virtualCoach')->with([
+            'user' => $calArray[0],
+            'caloriesRequired' => $calArray[1],
+            'caloriesConsumed' => $calArray[2],
+            'caloriesLeft1' => $calArray[3],
+            'caloriesBurned' => $calArray[4],
+            'caloriesLeft2' => $calArray[5],
+        ]);
     }
-    return view('bmi.virtualCoach')->with([
-        'user' => $calArray[0],
-        'caloriesRequired' => $calArray[1],
-        'caloriesConsumed' => $calArray[2],
-        'caloriesLeft1' => $calArray[3],
-        'caloriesBurned' => $calArray[4],
-        'caloriesLeft2' => $calArray[5],
-        'consumed' => $consumed
-    ]);
-}
 
-public function calculateCalories($user){
-  $userRow=User::where('name','=',$user)->first();
-  $caloriesRequired=$userRow->caloriesRequired;
+    //This function is used to return relevant calorific values such as calories consumed,calories left, calories burned etc.
+    public function calculateCalories($user)
+    {
+        $userRow=User::where('name','=',$user)->first();
+        $caloriesRequired=$userRow->caloriesRequired;
 
-  $userId=$userRow->id;
-  $caloriesConsumed=0;
-  $caloriesBurned=0;
-  $date=new \DateTime('today');
+        $userId=$userRow->id;
+        $caloriesConsumed=0;
+        $caloriesBurned=0;
 
-  foreach($userRow->foods as $food) {
-      //https://laracasts.com/discuss/channels/eloquent/how-to-access-data-of-a-pivot-table
-      if($food->pivot->created_at>=$date){
-      $caloriesConsumed+=$food->calories;
+        //$date can be used to make sure that only the food and exercises of the current day are taken into account.
+        $date=new \DateTime('today');
+
+        foreach($userRow->foods as $food)
+        {
+            //https://laracasts.com/discuss/channels/eloquent/how-to-access-data-of-a-pivot-table
+            if($food->pivot->created_at>=$date)
+            {
+                $caloriesConsumed+=$food->calories;
+            }
+        }
+
+        foreach($userRow->exercises as $exercise)
+        {
+            //https://laracasts.com/discuss/channels/eloquent/how-to-access-data-of-a-pivot-table
+            if($exercise->pivot->created_at>=$date)
+            {
+                $caloriesBurned+=$exercise->calories;
+            }
+        }
+
+        $caloriesLeft1=$caloriesRequired-$caloriesConsumed;
+        $caloriesLeft2=$caloriesRequired-$caloriesBurned;
+
+        $calArray=[$user,$caloriesRequired,$caloriesConsumed,$caloriesLeft1,$caloriesBurned,$caloriesLeft2];
+        return $calArray;
     }
-  }
-
-  foreach($userRow->exercises as $exercise) {
-      https://laracasts.com/discuss/channels/eloquent/how-to-access-data-of-a-pivot-table
-      if($exercise->pivot->created_at>=$date){
-      $caloriesBurned+=$exercise->calories;
-    }
-  }
-
-  $caloriesLeft1=$caloriesRequired-$caloriesConsumed;
-
-      $caloriesLeft2=$caloriesRequired-$caloriesBurned;
-
-
-  $calArray=[$user,$caloriesRequired,$caloriesConsumed,$caloriesLeft1,$caloriesBurned,$caloriesLeft2];
-  return $calArray;
-}
 
 
 }

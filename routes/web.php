@@ -10,11 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-/**
-* Main page which calculates the BMI and required calories.
-*/
-
 if(config('app.env') == 'local') {
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 }
