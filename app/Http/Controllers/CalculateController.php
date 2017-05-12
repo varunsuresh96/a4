@@ -13,6 +13,28 @@ class CalculateController extends Controller
 {
     public function bmi(Request $request)
     {
+      // Validate the user inputs and if validation fails, return the custom error messages.
+        $this->validate($request,
+        [
+            'weight' => 'required|numeric|min:1',
+            'height' => 'required|numeric|min:1',
+            'age' => 'required|numeric|min:1',
+        ],
+
+        [
+            'weight.required' => 'Please enter your weight',
+            'weight.numeric' => 'Please enter a numerical value height',
+            'weight.min:1' => 'Please enter a positive number for weight',
+
+            'height.required' => 'Please enter your height',
+            'height.numeric' => 'Please enter a numerical value for height',
+            'height.min' => 'Please enter a positive number for height',
+
+            'age.required' => 'Please enter your age',
+            'age.numeric' => 'Please enter a numerical value for age',
+            'age.min' => 'Please enter a positive integer for age',
+        ]);
+
         $bmiObject= new BmiController();
 
         // Assign the user's inputs to the appropriate variables
@@ -30,34 +52,8 @@ class CalculateController extends Controller
 
         if ($submitted)
         {
-            // Validate the user inputs and if validation fails, return the custom error messages.
-            $this->validate($request, [
-                'weight' => 'required|numeric|min:1',
-                'height' => 'required|numeric|min:1',
-                'age' => 'required|numeric|min:1',
-                ],
-
-                [
-                'weight.required' => 'Please enter your weight',
-                'weight.numeric' => 'Please enter a numerical value height',
-                'weight.min:1' => 'Please enter a positive number for weight',
-
-                'height.required' => 'Please enter your height',
-                'height.numeric' => 'Please enter a numerical value for height',
-                'height.min' => 'Please enter a positive number for height',
-
-                'age.required' => 'Please enter your age',
-                'age.numeric' => 'Please enter a numerical value for age',
-                'age.min' => 'Please enter a positive integer for age',
-            ]);
-
-            $submitted=true;
             $bmi=$bmiObject->bmiCal($weight,$height);
-
-
-
             $calories=$bmiObject->caloriesCal($weight, $height,$gender,$age,$activity,$goal);
-
 
             $user = $request->user()->name;
             $userCal=User::where('name','=',$user)->first();
@@ -65,7 +61,9 @@ class CalculateController extends Controller
             $userCal->goal=$goal;
             $userCal->save();
 
+            $submitted=true;
         }
+
         return view('bmi.bmi')->with([
             'weight' => $weight,
             'height' => $height,
@@ -82,13 +80,17 @@ class CalculateController extends Controller
 
     public function home(Request $request)
     {
-      $user = $request->user()->name;
-      if($this->getCaloriesRequired($user)==null){
-        return redirect('/bmi');
-      }
+        $user = $request->user()->name;
+        /*
+            Checks if user has calculated his/her required calories. If not, they are redirected
+            to the bmi calculation page
+        */
+        if($this->getCaloriesRequired($user)==null)
+        {
+            return redirect('/bmi');
+        }
 
-      $calArray=$this->calculateCalories($user);
-
+        $calArray=$this->calculateCalories($user);
 
         return view('bmi.home')->with([
             'caloriesConsumed' => round(($calArray[2]/$calArray[1])*100,2),
@@ -96,229 +98,225 @@ class CalculateController extends Controller
             'caloriesBurned' => round(($calArray[4]/$calArray[1])*100,2),
             'caloriesLeft2' => round(($calArray[5]/$calArray[1])*100,2)
         ]);
-
     }
 
     public function food(Request $request)
     {
-      $user = $request->user()->name;
-      if($this->getCaloriesRequired($user)==null){
-        return redirect('/bmi');
-      }
+        $user = $request->user()->name;
+        if($this->getCaloriesRequired($user)==null)
+        {
+            return redirect('/bmi');
+        }
 
-      $food= new Food();
-      $foodList= $food->pluck('food');
+        $food= new Food();
+        //Get the name of all the food items in the database.
+        $foodList= $food->pluck('food');
 
-      $selectedFood=$request->input('food');
-      $foodId=Food::where('food','=',$selectedFood)->pluck('id');
+        $selectedFood=$request->input('food');
+        $foodId=Food::where('food','=',$selectedFood)->pluck('id');
 
-      $users = User::where('name','=',$user)->first();
-      $users->save();
-      $users->foods()->attach($foodId);
+        //Attach the selected food to the respective user and enter this record into the pivot table.
+        $users = User::where('name','=',$user)->first();
+        $users->save();
+        $users->foods()->attach($foodId);
 
-      return view('bmi.food')->with([
-        'foodList'=>$foodList,
-        'users'=>$users
+        return view('bmi.food')->with([
+            'foodList'=>$foodList,
+            'users'=>$users
         ]);
     }
-      public function newFood(Request $request){
 
+    public function newFood(Request $request)
+    {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null){
-          return redirect('/bmi');
+        if($this->getCaloriesRequired($user)==null)
+        {
+            return redirect('/bmi');
         }
         return view('bmi.newFood');
+    }
 
-      }
-
-    public function newFoodAdded(Request $request){
-
-      $user = $request->user()->name;
-      if($this->getCaloriesRequired($user)==null){
-        return redirect('/bmi');
-      }
-
-    $this->validate($request, [
-
-    'newFood' => 'required',
-    'newCalories' => 'required|numeric|min:1',
-    ],
-
-  [
-  'newFood.required' => 'Please enter a food item',
-
-  'newCalories.required' => 'Please enter a calorific value',
-  'newCalories.numeric' => 'Please enter a numerical value for calories',
-  'newCalories.min' => 'Please enter a positive value for calories',
-]);
-
-    $food= new Food();
-
-    $food->food=$request->newFood;
-    $food->calories=$request->newCalories;
-    $food->save();
-
-    return view('bmi.newFoodAdded')->with([
-      'food' =>$food
-    ]);
-      }
-
-      public function deleteFood(Request $request){
-
+    public function newFoodAdded(Request $request)
+    {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null){
-          return redirect('/bmi');
+        if($this->getCaloriesRequired($user)==null)
+        {
+            return redirect('/bmi');
+        }
+
+        $this->validate($request, [
+            'newFood' => 'required',
+            'newCalories' => 'required|numeric|min:1',
+        ],
+
+        [
+            'newFood.required' => 'Please enter a food item',
+
+            'newCalories.required' => 'Please enter a calorific value',
+            'newCalories.numeric' => 'Please enter a numerical value for calories',
+            'newCalories.min' => 'Please enter a positive value for calories',
+        ]);
+
+        $food= new Food();
+        $food->food=$request->newFood;
+        $food->calories=$request->newCalories;
+        $food->save();
+
+        return view('bmi.newFoodAdded')->with([
+            'food' =>$food
+        ]);
+    }
+
+    public function deleteFood(Request $request)
+    {
+        $user = $request->user()->name;
+        if($this->getCaloriesRequired($user)==null)
+        {
+            return redirect('/bmi');
         }
 
         $foodList= new Food();
         $foodList= $foodList->pluck('food');
 
         return view('bmi.deleteFood')->with([
-          'foodList'=>$foodList
-          ]);
+            'foodList'=>$foodList
+        ]);
+    }
 
-      }
-
-      public function foodDeleted(Request $request){
-
+    public function foodDeleted(Request $request)
+    {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null){
-          return redirect('/bmi');
+        if($this->getCaloriesRequired($user)==null)
+        {
+            return redirect('/bmi');
         }
 
         $this->validate($request, [
-
-        'food' => 'required'
+            'food' => 'required'
         ],
+        [
+            'food.required' => 'Please select a food item',
+        ]);
 
-      [
-      'food.required' => 'Please select a food item',
-    ]);
-      $user = $request->user()->name;
-      $food=$request->input('food');
-      $food = Food::where('food', '=', $food)->first();
+        $food=$request->input('food');
+        $food = Food::where('food', '=', $food)->first();
+        $foodId=Food::where('food','=',$food)->pluck('id');
 
+        //Detach the food from the user and then delete it from the database.
+        $users = User::where('name','=',$user)->first();
+        $users->foods()->detach();
+        $users->save();
+        $food->delete();
 
-      $foodId=Food::where('food','=',$food)->pluck('id');
-
-      $users = User::where('name','=',$user)->first();
-
-      $users->foods()->detach();
-      $users->save();
-      $food->delete();
-
-      return view('bmi.foodDeleted')->with([
-        'food' =>$food
-      ]);
-        }
-
-
+        return view('bmi.foodDeleted')->with([
+            'food' =>$food
+        ]);
+    }
 
     public function exercise(Request $request)
     {
-      $user = $request->user()->name;
-      if($this->getCaloriesRequired($user)==null){
-        return redirect('/bmi');
-      }
+        $user = $request->user()->name;
+        if($this->getCaloriesRequired($user)==null)
+        {
+            return redirect('/bmi');
+        }
 
-      $exercise= new Exercise();
-      $exerciseList= $exercise->pluck('exercise');
+        $exercise= new Exercise();
+        $exerciseList= $exercise->pluck('exercise');
 
-      $selectedExercise=$request->input('exercise');
-      $exerciseId=Exercise::where('exercise','=',$selectedExercise)->pluck('id');
+        $selectedExercise=$request->input('exercise');
+        $exerciseId=Exercise::where('exercise','=',$selectedExercise)->pluck('id');
 
-      $users = User::where('name','=',$user)->first();
-      $users->save();
-      $users->exercises()->attach($exerciseId);
-      //dump($users->exercises);
-      foreach($users->exercises as $exercise) {
-      }
+        //Attach exercise to user and store the record in the pivot table
+        $users = User::where('name','=',$user)->first();
+        $users->save();
+        $users->exercises()->attach($exerciseId);
 
-      return view('bmi.exercise')->with([
-        'exerciseList'=>$exerciseList,
-        'users'=>$users
+        return view('bmi.exercise')->with([
+            'exerciseList'=>$exerciseList,
+            'users'=>$users
         ]);
     }
 
-    public function newExercise(Request $request){
-
-      $user = $request->user()->name;
-      if($this->getCaloriesRequired($user)==null){
-        return redirect('/bmi');
-
-      }
-      return view('bmi.newExercise');
-
+    public function newExercise(Request $request)
+    {
+        $user = $request->user()->name;
+        if($this->getCaloriesRequired($user)==null)
+        {
+            return redirect('/bmi');
+        }
+        return view('bmi.newExercise');
     }
 
-    public function newExerciseAdded(Request $request){
+    public function newExerciseAdded(Request $request)
+    {
+        $user = $request->user()->name;
+        if($this->getCaloriesRequired($user)==null)
+        {
+            return redirect('/bmi');
+        }
 
-      $user = $request->user()->name;
-      if($this->getCaloriesRequired($user)==null){
-        return redirect('/bmi');
-      }
-      $this->validate($request, [
+        $this->validate($request,
+        [
+            'newExercise' => 'required',
+            'newCalories' => 'required|numeric|min:1',
+        ],
+        [
+            'newExercise.required' => 'Please enter the name of the exercise',
 
-      'newExercise' => 'required',
-      'newCalories' => 'required|numeric|min:1',
-      ],
-
-    [
-    'newExercise.required' => 'Please enter the name of the exercise',
-
-    'newCalories.required' => 'Please enter the calories burned',
-    'newCalories.numeric' => 'Please enter a numerical value for calories',
-    'newCalories.min' => 'Please enter a positive value for calories',
-
-
-  ]);
-
-  $exercise= new Exercise();
-  //$food->food=$newFood;
-  //$food->calories=$newFoodCal;
-  $exercise->exercise=$request->newExercise;
-  $exercise->calories=$request->newCalories;
-  $exercise->save();
-
-  return view('bmi.newExerciseAdded')->with([
-    'exercise' =>$exercise
-  ]);
-    }
-
-    public function deleteExercise(Request $request){
-
-      $user = $request->user()->name;
-      if($this->getCaloriesRequired($user)==null){
-        return redirect('/bmi');
-      }
-      $exerciseList= new Exercise();
-      $exerciseList= $exerciseList->pluck('exercise');
-
-      return view('bmi.deleteExercise')->with([
-        'exerciseList'=>$exerciseList
+            'newCalories.required' => 'Please enter the calories burned',
+            'newCalories.numeric' => 'Please enter a numerical value for calories',
+            'newCalories.min' => 'Please enter a positive value for calories',
         ]);
-}
 
-public function exerciseDeleted(Request $request){
+        $exercise= new Exercise();
 
-  $user = $request->user()->name;
-  if($this->getCaloriesRequired($user)==null){
-    return redirect('/bmi');
-  }
-  $this->validate($request, [
+        //Store the new exercise and calories to the exercise table.
+        $exercise->exercise=$request->newExercise;
+        $exercise->calories=$request->newCalories;
+        $exercise->save();
 
-  'exercise' => 'required'
-  ],
+        return view('bmi.newExerciseAdded')->with([
+            'exercise' =>$exercise
+        ]);
+    }
 
-[
-'exercise.required' => 'Please select an exercise',
-]);
-$user = $request->user()->name;
-$exercise=$request->input('exercise');
-$exercise = Exercise::where('exercise', '=', $exercise)->first();
+    public function deleteExercise(Request $request)
+    {
+        $user = $request->user()->name;
+        if($this->getCaloriesRequired($user)==null)
+        {
+            return redirect('/bmi');
+        }
 
+        $exerciseList= new Exercise();
+        $exerciseList= $exerciseList->pluck('exercise');
 
-$exerciseId=Exercise::where('exercise','=',$exercise)->pluck('id');
+        return view('bmi.deleteExercise')->with([
+            'exerciseList'=>$exerciseList
+        ]);
+    }
+
+    public function exerciseDeleted(Request $request)
+    {
+        $user = $request->user()->name;
+        if($this->getCaloriesRequired($user)==null)
+        {
+            return redirect('/bmi');
+        }
+
+        $this->validate($request, [
+            'exercise' => 'required'
+        ],
+        [
+            'exercise.required' => 'Please select an exercise',
+        ]);
+
+        $user = $request->user()->name;
+        $exercise=$request->input('exercise');
+        $exercise = Exercise::where('exercise', '=', $exercise)->first();
+
+        $exerciseId=$exercise->id;
 
 $users = User::where('name','=',$user)->first();
 
@@ -402,5 +400,6 @@ public function calculateCalories($user){
   $calArray=[$user,$caloriesRequired,$caloriesConsumed,$caloriesLeft1,$caloriesBurned,$caloriesLeft2];
   return $calArray;
 }
+
 
 }
