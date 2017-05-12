@@ -10,7 +10,7 @@
 
             <div class="form-group">
                 <p><b>What did you eat today?</b></p>
-                <input list="food" autocomplete="off" autofocus class="form-control" name="food" placeholder="Product" type="text"/>
+                <input list="food" autocomplete="off" autofocus class="form-control" name="food" placeholder="Food Item" type="text"/>
                 <datalist id="food">
                   @foreach($foodList as $food)
                       <option value="{{$food}}">

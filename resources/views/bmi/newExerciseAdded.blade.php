@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <h1>'{{$exercise->exercise}}' has been Added!</h1>
+    <div class="alert alert-success"><h4>'{{$exercise->exercise}}' has been Added!</h4>
 
 
 

@@ -12,7 +12,7 @@
         <fieldset>
 
             <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="newFood" placeholder="Product Name" type="text" value='{{ $newFood or old('newFood')}}'/>
+                <input autocomplete="off" autofocus class="form-control" name="newFood" placeholder="Food Item" type="text" value='{{ $newFood or old('newFood')}}'/>
             </div>
             @if($errors->get('newFood'))
                 <div class="alert alert-danger">

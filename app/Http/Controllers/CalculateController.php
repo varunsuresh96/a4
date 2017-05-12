@@ -39,16 +39,16 @@ class CalculateController extends Controller
 
                 [
                 'weight.required' => 'Please enter your weight',
-                'weight.numeric' => 'Please enter a numerical value',
-                'weight.min:1' => 'Please enter a positive number',
+                'weight.numeric' => 'Please enter a numerical value height',
+                'weight.min:1' => 'Please enter a positive number for weight',
 
                 'height.required' => 'Please enter your height',
-                'height.numeric' => 'Please enter a numerical value',
-                'height.min' => 'Please enter a positive number',
+                'height.numeric' => 'Please enter a numerical value for height',
+                'height.min' => 'Please enter a positive number for height',
 
                 'age.required' => 'Please enter your age',
-                'age.numeric' => 'Please enter a numerical value',
-                'age.min' => 'Please enter a positive integer',
+                'age.numeric' => 'Please enter a numerical value for age',
+                'age.min' => 'Please enter a positive integer for age',
             ]);
 
             $submitted=true;
@@ -115,7 +115,8 @@ class CalculateController extends Controller
       $users->save();
       $users->foods()->attach($foodId);
 
-      return view('bmi.nutrition')->with([
+
+      return view('bmi.food')->with([
         'foodList'=>$foodList,
         'users'=>$users
         ]);
@@ -147,8 +148,8 @@ class CalculateController extends Controller
   'newFood.required' => 'Please enter a food item',
 
   'newCalories.required' => 'Please enter a calorific value',
-  'newCalories.numeric' => 'Please enter a numerical value',
-  'newCalories.min' => 'Please enter a positive value',
+  'newCalories.numeric' => 'Please enter a numerical value for calories',
+  'newCalories.min' => 'Please enter a positive value for calories',
 
 
 ]);
@@ -272,8 +273,8 @@ class CalculateController extends Controller
     'newExercise.required' => 'Please enter the name of the exercise',
 
     'newCalories.required' => 'Please enter the calories burned',
-    'newCalories.numeric' => 'Please enter a numerical value',
-    'newCalories.min' => 'Please enter a positive value',
+    'newCalories.numeric' => 'Please enter a numerical value for calories',
+    'newCalories.min' => 'Please enter a positive value for calories',
 
 
   ]);

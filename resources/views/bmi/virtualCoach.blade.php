@@ -8,7 +8,7 @@
 <h4>Hello <b>{{$user}}</b>! I am your virtual coach and I am here to help you meet your goals !</h4>
 
 <div class="boxed">
-<h3>Food</h3>
+<div class="underline"><h3>Food</h3></div>
 <div class="info">Based on our analysis, you have
  @if($caloriesRequired>$caloriesConsumed)
 not yet consumed the required number of calories for today. You still need to consume {{$caloriesLeft1}} to meet your daily
@@ -32,7 +32,7 @@ you are already above your required calorie intake! </div>
 </div>
 <br>
 <div class="boxed">
-<h3>Exercise</h3>
+<div class="underline"><h3>Exercise</h3></div>
 <div class="info">Based on our analysis, you have
  @if($caloriesRequired>$caloriesBurned)
 not yet burned the required number of calories for today. You still need to burn {{$caloriesLeft2}} to meet your daily

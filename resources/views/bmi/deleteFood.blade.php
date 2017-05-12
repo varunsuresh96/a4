@@ -12,7 +12,7 @@
         <fieldset>
 
             <div class="form-group">
-              <input list="food" autocomplete="off" autofocus class="form-control" name="food" placeholder="Product" type="text"/>
+              <input list="food" autocomplete="off" autofocus class="form-control" name="food" placeholder="Food Item" type="text"/>
               <datalist id="food">
                 @foreach($foodList as $food)
                     <option value="{{$food}}">

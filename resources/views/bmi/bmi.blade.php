@@ -79,10 +79,6 @@
             </div>
 
             <div class="form-group">
-                <label><input type='checkbox' name='calories' value='calories' {{ ($calories) ? 'CHECKED' : ''}} >Include calorie requirement</label>
-            </div>
-
-            <div class="form-group">
                 <button type='submit' class='btn btn-primary btn-small'>Calculate</button>
             </div>
         </fieldset>
@@ -93,9 +89,7 @@
         <div class='alert alert-success'>Your BMI is {{$bmi}}</div>
 
         <!-- Print the calories required if the checkbox has been checked by the user -->
-        @if($calChecked)
             <div class='alert alert-success'>Your required calorie intake is {{$calories}}</div>
-        @endif
     @endif
 
 @endsection

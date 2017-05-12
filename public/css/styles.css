@@ -32,10 +32,9 @@
 
     margin-right: auto;
 
-    width:40%;
+    width:60%;
 
 }
-
 
 
 .boxed {
@@ -112,10 +111,5 @@ tr:nth-child(odd) {
 }
 
 h3 {
-  text-decoration: underline;
-
-
-
   font-size: 30px;
-
 }
