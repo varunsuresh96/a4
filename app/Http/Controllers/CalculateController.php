@@ -387,9 +387,7 @@ public function calculateCalories($user){
       $caloriesConsumed+=$food->calories;
     }
   }
-
-  dump($caloriesConsumed);
-
+  
   foreach($userRow->exercises as $exercise) {
       if($exercise->pivot->created_at>=$date){
       $caloriesBurned+=$exercise->calories;

@@ -14,7 +14,7 @@
 not yet consumed the required number of calories for today. You still need to consume {{$caloriesLeft1}} to meet your daily
 requirement.
 <br><br>Don't worry about it ! Might I suggest a couple of tips to help you consume the required calories to meet your goals?</div>
-<br><div class="underline" class="info">How about you try these techniques:-</div>
+<br><div class="underline info">How about you try these techniques:-</div>
 <br><div class="info">1) Eating five to six small meals a day will help you consume more calories.
 <br>2) To gain weight in a healthful way, you should focus on eating nutrient-dense foods.
 <br>3) Consuming foods such as soft drinks, candy, chips and cookies is not a smart way to increase calories. They do not help build muscle, repair tissues or strengthen bones like nutrient-rich foods do.
@@ -38,7 +38,7 @@ you are already above your required calorie intake! </div>
 not yet burned the required number of calories for today. You still need to burn {{$caloriesLeft2}} to meet your daily
 requirement.
 <br><br>Don't worry about it ! Might I suggest a couple of tips to help you burn the required calories to meet your goals?</div>
-<br><div class="underline" class="info">How about you try these techniques:-</div>
+<br><div class="underline info">How about you try these techniques:-</div>
 <br><div class="info">How about you try these techniques:-
 <br>1) If at all possible, exercise first thing in the morning.
 <br>2) Give yourself credit for the smallest effort.
