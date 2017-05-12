@@ -15,6 +15,12 @@
 * Main page which calculates the BMI and required calories.
 */
 
+if(config('app.env') == 'local') {
+
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+}
+
 Route::group(['middleware' => 'auth'], function () {
 
 
@@ -36,14 +42,5 @@ Route::get('/newexercise','CalculateController@newExercise');
 Route::post('/newexercise','CalculateController@newExerciseAdded');
 });
 Route::get('/','CalculateController@login');
-/**
-* Log viewer
-* (only accessible locally)
-*/
 
-if(config('app.env') == 'local') {
-
-    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-
-}
 Auth::routes();

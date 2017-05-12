@@ -343,10 +343,10 @@ public function getCaloriesRequired($user)
   return $caloriesRequired[0];
 }
 
-  public function login()
+  public function login(Request $request)
   {
 
-    $user = $request->user()->name;
+    $user = $request->user();
     if($user!=null){
       return redirect('/home');
     }
