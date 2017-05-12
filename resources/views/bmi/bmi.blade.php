@@ -91,5 +91,4 @@
         <!-- Print the calories required if the checkbox has been checked by the user -->
             <div class='alert alert-success'>Your required calorie intake is {{$calories}}</div>
     @endif
-
 @endsection

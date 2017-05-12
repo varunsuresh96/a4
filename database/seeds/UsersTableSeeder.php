@@ -10,28 +10,20 @@ class UsersTableSeeder extends Seeder
      *
      * @return void
      */
-     public function run()
-     {
-       $user = \App\User::firstOrCreate([
+    public function run()
+    {
+        $user = \App\User::firstOrCreate([
+            'name' => 'John',
+            'password' => \Hash::make('John'),
+            'caloriesRequired' => '1500',
+            'goal' => 'lose'
+        ]);
 
-               'name' => 'John',
-
-               'password' => \Hash::make('John'),
-
-               'caloriesRequired' => '1500',
-
-               'goal' => 'lose'
-             ]);
-
-             $user = \App\User::firstOrCreate([
-
-                     'name' => 'Linda',
-
-                     'password' => \Hash::make('Linda'),
-
-                     'caloriesRequired' => '1360',
-
-                     'goal' => 'gain'
-                   ]);
-     }
+        $user = \App\User::firstOrCreate([
+            'name' => 'Linda',
+            'password' => \Hash::make('Linda'),
+            'caloriesRequired' => '1360',
+            'goal' => 'gain'
+        ]);
+    }    
 }

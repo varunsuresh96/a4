@@ -1,115 +1,72 @@
 .container
-
 {
-
     margin-left: auto;
-
     margin-right: auto;
-
     text-align: center;
-
 }
-
-
 
 .form-control
-
 {
-
     display: inline-block;
-
     width: auto;
-
 }
-
-
 
 .alert
-
 {
-
     margin-left: auto;
-
     margin-right: auto;
-
     width:60%;
-
 }
 
-
-.boxed {
-
-border: 3px solid gray;
-
-padding:0px 10px 10px 10px
-
+.boxed
+{
+    border: 3px solid gray;
+    padding:0px 10px 10px 10px;
 }
 
-
-.underline{
-  text-decoration: underline;
+.underline
+{
+    text-decoration: underline;
 }
-
 
 label
-
 {
-
     margin-right: 10px;
-
 }
-
-
 
 img
-
 {
-
     width: 220px;
-
     height: 250px;
-
 }
 
-table{
-
-  margin: 0px auto;
-
-  border-collapse: collapse;
-
-  width: 50%;
-
+table
+{
+    margin:0px auto;
+    border-collapse: collapse;
+    width: 50%;
 }
 
-
-
- td,th {
-
-  padding: 0.25rem;
-
-  text-align: center;
-
-  border-bottom: 1px solid #ddd;
-
-  border: 1px solid #ccc;
-
+td,th
+{
+    padding: 0.25rem;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    border: 1px solid #ccc;
 }
 
-
-tr:nth-child(odd) {
-
-  background: #ccddff;
-
+tr:nth-child(odd)
+{
+    background: #ccddff;
 }
 
-.info{
-
-  text-align:left;
-
-  font-size: 20px;
-
+.info
+{
+    text-align:left;
+    font-size: 20px;
 }
 
-h3 {
-  font-size: 30px;
+h3
+{
+    font-size: 30px;
 }

@@ -381,12 +381,14 @@ public function calculateCalories($user){
   $date=new \DateTime('today');
 
   foreach($userRow->foods as $food) {
+      //https://laracasts.com/discuss/channels/eloquent/how-to-access-data-of-a-pivot-table
       if($food->pivot->created_at>=$date){
       $caloriesConsumed+=$food->calories;
     }
   }
 
   foreach($userRow->exercises as $exercise) {
+      https://laracasts.com/discuss/channels/eloquent/how-to-access-data-of-a-pivot-table
       if($exercise->pivot->created_at>=$date){
       $caloriesBurned+=$exercise->calories;
     }

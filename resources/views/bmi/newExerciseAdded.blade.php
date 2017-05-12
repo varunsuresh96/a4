@@ -2,10 +2,5 @@
 @extends('layouts.master')
 
 @section('content')
-
     <div class="alert alert-success"><h4>'{{$exercise->exercise}}' has been Added!</h4>
-
-
-
-
 @endsection

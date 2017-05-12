@@ -5,15 +5,14 @@
 
     <h1>New Food</h1>
 
-
     <form method="POST" id='nutrition' action="/newfood">
-      {{ csrf_field() }}
+    {{ csrf_field() }}
 
         <fieldset>
-
             <div class="form-group">
                 <input autocomplete="off" autofocus class="form-control" name="newFood" placeholder="Food Item" type="text" value='{{ $newFood or old('newFood')}}'/>
             </div>
+
             @if($errors->get('newFood'))
                 <div class="alert alert-danger">
                     <ul>
@@ -23,6 +22,7 @@
                     </ul>
                 </div>
             @endif
+
             <div class="form-group">
                 <input autocomplete="off" autofocus class="form-control" name="newCalories" placeholder="Calories" type="text"/>
             </div>
@@ -36,11 +36,10 @@
                     </ul>
                 </div>
             @endif
+
             <div class="form-group">
                 <button class="btn btn-default" type="submit">Add</button>
             </div>
-
         </fieldset>
     </form>
-
 @endsection

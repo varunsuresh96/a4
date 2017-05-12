@@ -12,25 +12,20 @@ class FoodUserTableSeeder extends Seeder
      */
     public function run()
     {
-      $users =[
-      'John' => array(array('Egg boiled',80),array('Curd',100),array('Chapati',60)),
-      'Linda' => array(array('Salad',100),array('Chinese noodles',450),array('Pizza',400))
+        $users =[
+            'John' => array(array('Egg boiled',80),array('Curd',100),array('Chapati',60)),
+            'Linda' => array(array('Salad',100),array('Chinese noodles',450),array('Pizza',400))
+        ];
 
+        foreach($users as $name => $foods)
+        {
+            $user = User::where('name','like',$name)->first();
 
-  ];
-
-  foreach($users as $name => $foods) {
-
-
-      $user = User::where('name','like',$name)->first();
-
-      foreach($foods as $foodName) {
-          $food = Food::where('food','LIKE',$foodName)->first();
-
-          $user->foods()->save($food);
-      }
-
-  }
-
+            foreach($foods as $foodName)
+            {
+                $food = Food::where('food','LIKE',$foodName)->first();
+                $user->foods()->save($food);
+            }
+        }
     }
 }

@@ -15,46 +15,48 @@
 	  </head>
 
 	  <body>
-			<nav class="navbar navbar-default">
-		<div class="container-fluid">
-				<div class="navbar-header">
-						<button aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand">Lifestyle Buddy</a>
-				</div>
-			<div class="collapse navbar-collapse" id="navbar">
-								@if(Auth::check())
-													<ul class="nav navbar-nav">
-															<li><a href="/home">Home</a></li>
-															<li><a href="/bmi">BMI</a></li>
-															<li><a href="/food">Food</a></li>
-															<li><a href="/exercise">Exercise</a></li>
-															<li><a href="/virtualcoach">Virtual Coach</a></li>
-													</ul>
-													<ul class="nav navbar-nav navbar-right">
-															<form method='POST' id='logout' action='/logout'>
-																{{ csrf_field() }}
-																<a href='#' onClick='document.getElementById("logout").submit();'>Logout</a>
-															</form>
-													</ul>
-											@else
-													<ul class="nav navbar-nav navbar-right">
-															<li><a href="/register">Register</a></li>
-															<li><a href="/login">Log In</a></li>
-													</ul>
-											@endif
-									</div>
-							</div>
-					</nav>
-  	    <div class='container'>
-						<section>
-                @yield('content')
-            </section>
-				</div>
+				<nav class="navbar navbar-default">
+						<div class="container-fluid">
+			    			<div class="navbar-header">
+										<button aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button">
+												<span class="sr-only">Toggle navigation</span>
+												<span class="icon-bar"></span>
+												<span class="icon-bar"></span>
+												<span class="icon-bar"></span>
+										</button>
+										<a class="navbar-brand">Lifestyle Buddy</a>
+								</div>
+								<div class="collapse navbar-collapse" id="navbar">
+
+								    @if(Auth::check())
+												<ul class="nav navbar-nav">
+														<li><a href="/home">Home</a></li>
+														<li><a href="/bmi">BMI</a></li>
+														<li><a href="/food">Food</a></li>
+														<li><a href="/exercise">Exercise</a></li>
+														<li><a href="/virtualcoach">Virtual Coach</a></li>
+												</ul>
+												<ul class="nav navbar-nav navbar-right">
+														<form method='POST' id='logout' action='/logout'>
+														{{ csrf_field() }}
+														    <a href='#' onClick='document.getElementById("logout").submit();'>Logout</a>
+														</form>
+												</ul>
+										@else
+												<ul class="nav navbar-nav navbar-right">
+														<li><a href="/register">Register</a></li>
+														<li><a href="/login">Log In</a></li>
+												</ul>
+										@endif
+								</div>
+						</div>
+				</nav>
+
+				<div class='container'>
+			      <section>
+	              @yield('content')
+	          </section>
+			  </div>
 				@stack('body')
 		</body>
 </html>
