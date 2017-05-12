@@ -20,9 +20,6 @@
 			    			<div class="navbar-header">
 										<button aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button">
 												<span class="sr-only">Toggle navigation</span>
-												<span class="icon-bar"></span>
-												<span class="icon-bar"></span>
-												<span class="icon-bar"></span>
 										</button>
 										<a class="navbar-brand">Lifestyle Buddy</a>
 								</div>
