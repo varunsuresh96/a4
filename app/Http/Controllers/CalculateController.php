@@ -345,6 +345,11 @@ public function getCaloriesRequired($user)
 
   public function login()
   {
+
+    $user = $request->user()->name;
+    if($user!=null){
+      return redirect('/home');
+    }
     return view('auth.login');
   }
 
@@ -387,7 +392,7 @@ public function calculateCalories($user){
       $caloriesConsumed+=$food->calories;
     }
   }
-  
+
   foreach($userRow->exercises as $exercise) {
       if($exercise->pivot->created_at>=$date){
       $caloriesBurned+=$exercise->calories;

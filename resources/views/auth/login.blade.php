@@ -24,7 +24,7 @@
 
         <label for="name">*Username</label><br>
 
-        <input id="name" type="text" autocomplete="off" autofocus class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+        <input id="name" type="text" autocomplete="off"  autofocus class="form-control" name="name" value="{{ old('name') }}">
 
         @if($errors->has('name'))
 
@@ -42,7 +42,7 @@
 
         <label for="password">Password</label><br>
 
-        <input id="password" type="password" autocomplete="off" autofocus class="form-control" name="password" required>
+        <input id="password" type="password" autocomplete="off" class="form-control" name="password">
 
         @if ($errors->has('password'))
 
