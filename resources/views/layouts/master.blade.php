@@ -15,6 +15,7 @@
 	  </head>
 
 	  <body>
+				<!-- Lines 18-24 were taken from a sample application in CS50. -->
 				<nav class="navbar navbar-default">
 						<div class="container-fluid">
 			    			<div class="navbar-header">
