@@ -11,48 +11,79 @@ use App\User;
 
 class CalculateController extends Controller
 {
+
+    //This function displays the form required to calculate the BMI.
+    public function bmiForm(Request $request)
+    {
+        $weight=null;
+        $height=null;
+        $age=null;
+        $calories=null;
+        $gender='male';
+        $activity='sedentary';
+        $goal='lose';
+        $submitted=0;
+        $bmi=0;
+        $calChecked=0;
+        return view('bmi.bmi')->with([
+            'weight' => $weight,
+            'height' => $height,
+            'age' => $age,
+            'calories' => $calories,
+            'gender' => $gender,
+            'activity' => $activity,
+            'goal' => $goal,
+            'submitted'=>$submitted,
+            'bmi' =>$bmi,
+            'calChecked'=>$calChecked
+        ]);
+    }
+
     //This function calculates the users BMI
     public function bmi(Request $request)
     {
-      // Validate the user inputs and if validation fails, return the custom error messages.
-        $this->validate($request,
-        [
-            'weight' => 'required|numeric|min:1',
-            'height' => 'required|numeric|min:1',
-            'age' => 'required|numeric|min:1',
-        ],
-
-        [
-            'weight.required' => 'Please enter your weight',
-            'weight.numeric' => 'Please enter a numerical value height',
-            'weight.min:1' => 'Please enter a positive number for weight',
-
-            'height.required' => 'Please enter your height',
-            'height.numeric' => 'Please enter a numerical value for height',
-            'height.min' => 'Please enter a positive number for height',
-
-            'age.required' => 'Please enter your age',
-            'age.numeric' => 'Please enter a numerical value for age',
-            'age.min' => 'Please enter a positive integer for age',
-        ]);
+      // Validate the user inputs and if validation fails, return the custom error messages
 
         $bmiObject= new BmiController();
 
         // Assign the user's inputs to the appropriate variables
-        $weight = $request->input('weight',null);
-        $height = $request->input('height',null);
-        $age = $request->input('age',null);
-        $gender = $request->input('gender','male');
-        $activity = $request->input('activity','sedentary');
-        $gender = $request->input('gender','male');
-        $goal = $request->input('goal','lose');
-        $calChecked= $request->has('calories');
-        $bmi=0;
-        $calories=0;
+
         $submitted=$request->all();
 
         if ($submitted)
         {
+            $this->validate($request,
+            [
+                'weight' => 'required|numeric|min:1',
+                'height' => 'required|numeric|min:1',
+                'age' => 'required|numeric|min:1',
+            ],
+
+            [
+                'weight.required' => 'Please enter your weight',
+                'weight.numeric' => 'Please enter a numerical value height',
+                'weight.min:1' => 'Please enter a positive number for weight',
+
+                'height.required' => 'Please enter your height',
+                'height.numeric' => 'Please enter a numerical value for height',
+                'height.min' => 'Please enter a positive number for height',
+
+                'age.required' => 'Please enter your age',
+                'age.numeric' => 'Please enter a numerical value for age',
+                'age.min' => 'Please enter a positive integer for age',
+            ]);
+
+            $weight = $request->input('weight',null);
+            $height = $request->input('height',null);
+            $age = $request->input('age',null);
+            $gender = $request->input('gender','male');
+            $activity = $request->input('activity','sedentary');
+            $gender = $request->input('gender','male');
+            $goal = $request->input('goal','lose');
+            $calChecked= $request->has('calories');
+            $bmi=0;
+            $calories=0;
+
             $bmi=$bmiObject->bmiCal($weight,$height);
             $calories=$bmiObject->caloriesCal($weight, $height,$gender,$age,$activity,$goal);
 
@@ -88,7 +119,7 @@ class CalculateController extends Controller
     {
         $user = $request->user()->name;
         /*
-            Checks if user has calculated his/her required calories. If not, they are redirected
+            IMPORTANT:Checks if user has calculated his/her required calories. If not, they are redirected
             to the bmi calculation page. This check is necessary for most functions because the required
             calculations cannot be performed unless the calories required has been calculated first.
         */

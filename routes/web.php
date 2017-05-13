@@ -17,7 +17,8 @@ if(config('app.env') == 'local') {
 Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/virtualcoach','CalculateController@virtualCoach');
-Route::get('/bmi','CalculateController@bmi');
+Route::get('/bmi','CalculateController@bmiForm');
+Route::post('/bmi','CalculateController@bmi');
 Route::get('/deletefood','CalculateController@deleteFood');
 Route::post('/deletefood','CalculateController@foodDeleted');
 Route::get('/deleteexercise','CalculateController@deleteExercise');

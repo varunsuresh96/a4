@@ -8,7 +8,8 @@
 @section('content')
     <h1>BMI Calculator</h1>
     <img src="images/bmi.jpg" alt="BMI Image"/>
-    <form method='GET' action='/bmi'>
+    <form method='POST' action='/bmi'>
+    {{ csrf_field() }}
         <fieldset>
             <div class="form-group">
                 <label for='weight'>* Weight(lbs)</label>
@@ -72,10 +73,10 @@
             </div>
 
             <div class="form-group">
-                <label>Activity level:</label>
-                <label ><input type='radio' name='goal' value='lose' {{ ($goal === 'lose') ? 'CHECKED' : ''}} > Gain weight</label>
+                <label>Goal:</label>
+                <label ><input type='radio' name='goal' value='lose' {{ ($goal === 'lose') ? 'CHECKED' : ''}} > Lose weight</label>
                 <label ><input type='radio' name='goal' value='maintain' {{ ($goal === 'maintain') ? 'CHECKED' : ''}}> Maintain weight</label>
-                <label><input type='radio' name='goal' value='gain' {{ ($goal === 'gain') ? 'CHECKED' : ''}} > Lose weight</label>
+                <label><input type='radio' name='goal' value='gain' {{ ($goal === 'gain') ? 'CHECKED' : ''}} > Gain weight</label>
             </div>
 
             <div class="form-group">
