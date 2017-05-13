@@ -416,13 +416,12 @@ class CalculateController extends Controller
     {
         $user = $request->user()->name;
 
-        if($this->getCaloriesRequired($user)==null)
+        $calArray=$this->calculateCalories($user);
+        //$caloriesRequired is located in index1 of this array.
+        if($calArray==null)
         {
             return redirect('/bmi');
         }
-
-        $calArray=$this->calculateCalories($user);
-        $consumed=false;
 
         return view('bmi.virtualCoach')->with([
             'user' => $calArray[0],
@@ -486,9 +485,9 @@ class CalculateController extends Controller
         $caloriesLeft1=$caloriesRequired-$caloriesConsumed;
         $caloriesLeft2=$caloriesToBurn-$caloriesBurned;
 
-        $calArray=[$user,$caloriesRequired,$caloriesConsumed,$caloriesLeft1,$caloriesToBurn,$caloriesBurned,$caloriesLeft2];
+        $calArray=[$user,$caloriesRequired,$caloriesConsumed,$caloriesLeft1,
+                  $caloriesToBurn,$caloriesBurned,$caloriesLeft2];
+
         return $calArray;
     }
-
-
 }
