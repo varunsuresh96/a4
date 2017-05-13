@@ -38,8 +38,8 @@
         <div class="underline"><h3>Exercise</h3></div>
         <div class="info">Based on our analysis, you have
 
-        @if($caloriesRequired>$caloriesBurned)
-            not yet burned the required number of calories for today. You still need to burn {{$caloriesLeft2+500}} to meet your daily
+        @if($caloriesToBurn>$caloriesBurned)
+            not yet burned the required number of calories for today. You still need to burn {{$caloriesLeft2}} to meet your daily
             requirement.
             <br><br>Don't worry about it ! Might I suggest a couple of tips to help you burn the required calories to meet your goals?</div>
             <br><div class="underline info">How about you try these techniques:-</div>
@@ -49,11 +49,11 @@
             <br>4) Try to incorperate your interests and passions into your exercise routine (Eg.dancing, trekking, sports).</div>
         @endif
 
-        @if($caloriesRequired<$caloriesBurned AND $caloriesRequired+500>$caloriesBurned)
+        @if($caloriesToBurn<$caloriesBurned AND $caloriesToBurn+500>$caloriesBurned)
             burned the required number of calories for the day. Good job ! </div>
         @endif
 
-        @if($caloriesRequired+500<$caloriesBurned)
+        @if($caloriesToBurn+500<$caloriesBurned)
             burned a considerably higher number of calories than that is required. Slow down there buddy ! You might want to stop working out
             for the day since you are already above the required calories to be burned! <div>
         @endif

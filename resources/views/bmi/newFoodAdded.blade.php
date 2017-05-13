@@ -2,5 +2,5 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="alert alert-success"><h4>'{{$food->food}}' has been Added!</h4>
+    <div class="alert alert-success"><h4>'{{$food->food}}' has been added!</h4>
 @endsection

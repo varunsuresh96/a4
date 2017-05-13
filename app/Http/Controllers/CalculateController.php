@@ -133,8 +133,8 @@ class CalculateController extends Controller
         return view('bmi.home')->with([
             'caloriesConsumed' => round(($calArray[2]/$calArray[1])*100,2),
             'caloriesLeft1' => round(($calArray[3]/$calArray[1])*100,2),
-            'caloriesBurned' => round(($calArray[4]/$calArray[1])*100,2),
-            'caloriesLeft2' => round(($calArray[5]/$calArray[1])*100,2)
+            'caloriesBurned' => round(($calArray[5]/$calArray[4])*100,2),
+            'caloriesLeft2' => round(($calArray[6]/$calArray[4])*100,2)
         ]);
     }
 
@@ -414,8 +414,9 @@ class CalculateController extends Controller
             'caloriesRequired' => $calArray[1],
             'caloriesConsumed' => $calArray[2],
             'caloriesLeft1' => $calArray[3],
-            'caloriesBurned' => $calArray[4],
-            'caloriesLeft2' => $calArray[5],
+            'caloriesToBurn' => $calArray[4],
+            'caloriesBurned' => $calArray[5],
+            'caloriesLeft2' => $calArray[6],
         ]);
     }
 
@@ -424,7 +425,8 @@ class CalculateController extends Controller
     {
         $userRow=User::where('name','=',$user)->first();
         $caloriesRequired=$userRow->caloriesRequired;
-
+        $caloriesToBurn=0;
+        $goal=$userRow->goal;
         $userId=$userRow->id;
         $caloriesConsumed=0;
         $caloriesBurned=0;
@@ -451,10 +453,25 @@ class CalculateController extends Controller
             }
         }
 
-        $caloriesLeft1=$caloriesRequired-$caloriesConsumed;
-        $caloriesLeft2=$caloriesRequired-$caloriesBurned;
+        if($goal=='gain')
+        {
+            $caloriesToBurn=$caloriesRequired-500;
+        }
 
-        $calArray=[$user,$caloriesRequired,$caloriesConsumed,$caloriesLeft1,$caloriesBurned,$caloriesLeft2];
+        if($goal=='lose')
+        {
+            $caloriesToBurn=$caloriesRequired+500;
+        }
+
+        else
+        {
+            $caloriesToBurn=$caloriesRequired;
+        }
+
+        $caloriesLeft1=$caloriesRequired-$caloriesConsumed;
+        $caloriesLeft2=$caloriesToBurn-$caloriesBurned;
+
+        $calArray=[$user,$caloriesRequired,$caloriesConsumed,$caloriesLeft1,$caloriesToBurn,$caloriesBurned,$caloriesLeft2];
         return $calArray;
     }
 
