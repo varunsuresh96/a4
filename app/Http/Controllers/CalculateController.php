@@ -56,7 +56,7 @@ class CalculateController extends Controller
             $bmi=$bmiObject->bmiCal($weight,$height);
             $calories=$bmiObject->caloriesCal($weight, $height,$gender,$age,$activity,$goal);
 
-            //Update caloriesReuired, activity level and goal each time the person checks their BMI.
+            //Update calories required, activity level and goal each time the person checks their BMI.
             $user = $request->user()->name;
             $userCal=User::where('name','=',$user)->first();
             $userCal->caloriesRequired=$calories;
@@ -89,7 +89,8 @@ class CalculateController extends Controller
         $user = $request->user()->name;
         /*
             Checks if user has calculated his/her required calories. If not, they are redirected
-            to the bmi calculation page
+            to the bmi calculation page. This check is necessary for most functions because the required
+            calculations cannot be performed unless the calories required has been calculated first.
         */
         if($this->getCaloriesRequired($user)==null)
         {
@@ -210,7 +211,7 @@ class CalculateController extends Controller
 
         $food=$request->input('food');
         $food = Food::where('food', '=', $food)->first();
-        $foodId=Food::where('food','=',$food)->pluck('id');
+        $foodId=$food->id;
 
         //Detach the food from the user and then delete it from the database.
         $users = User::where('name','=',$user)->first();
@@ -398,6 +399,7 @@ class CalculateController extends Controller
         $caloriesBurned=0;
 
         //$date can be used to make sure that only the food and exercises of the current day are taken into account.
+        //http://stackoverflow.com/questions/33247908/get-only-records-created-today-in-laravel
         $date=new \DateTime('today');
 
         foreach($userRow->foods as $food)
