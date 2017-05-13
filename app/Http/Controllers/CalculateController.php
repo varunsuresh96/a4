@@ -125,7 +125,7 @@ class CalculateController extends Controller
         */
         $calArray=$this->calculateCalories($user);
         //$caloriesRequired is located in index1 of this array.
-        if($calArray==null)
+        if($calArray[1]==null)
         {
             return redirect('/bmi');
         }
@@ -146,7 +146,7 @@ class CalculateController extends Controller
         $user = $request->user()->name;
         $calArray=$this->calculateCalories($user);
         //$caloriesRequired is located in index1 of this array.
-        if($calArray==null)
+        if($calArray[1]==null)
         {
             return redirect('/bmi');
         }
@@ -175,7 +175,7 @@ class CalculateController extends Controller
         $user = $request->user()->name;
         $calArray=$this->calculateCalories($user);
         //$caloriesRequired is located in index1 of this array.
-        if($calArray==null)
+        if($calArray[1]==null)
         {
             return redirect('/bmi');
         }
@@ -187,7 +187,7 @@ class CalculateController extends Controller
         $user = $request->user()->name;
         $calArray=$this->calculateCalories($user);
         //$caloriesRequired is located in index1 of this array.
-        if($calArray==null)
+        if($calArray[1]==null)
         {
             return redirect('/bmi');
         }
@@ -221,7 +221,7 @@ class CalculateController extends Controller
         $user = $request->user()->name;
         $calArray=$this->calculateCalories($user);
         //$caloriesRequired is located in index1 of this array.
-        if($calArray==null)
+        if($calArray[1]==null)
         {
             return redirect('/bmi');
         }
@@ -240,7 +240,7 @@ class CalculateController extends Controller
         $user = $request->user()->name;
         $calArray=$this->calculateCalories($user);
         //$caloriesRequired is located in index1 of this array.
-        if($calArray==null)
+        if($calArray[1]==null)
         {
             return redirect('/bmi');
         }
@@ -273,7 +273,7 @@ class CalculateController extends Controller
         $user = $request->user()->name;
         $calArray=$this->calculateCalories($user);
         //$caloriesRequired is located in index1 of this array.
-        if($calArray==null)
+        if($calArray[1]==null)
         {
             return redirect('/bmi');
         }
@@ -300,7 +300,7 @@ class CalculateController extends Controller
         $user = $request->user()->name;
         $calArray=$this->calculateCalories($user);
         //$caloriesRequired is located in index1 of this array.
-        if($calArray==null)
+        if($calArray[1]==null)
         {
             return redirect('/bmi');
         }
@@ -313,7 +313,7 @@ class CalculateController extends Controller
         $user = $request->user()->name;
         $calArray=$this->calculateCalories($user);
         //$caloriesRequired is located in index1 of this array.
-        if($calArray==null)
+        if($calArray[1]==null)
         {
             return redirect('/bmi');
         }
@@ -349,7 +349,7 @@ class CalculateController extends Controller
         $user = $request->user()->name;
         $calArray=$this->calculateCalories($user);
         //$caloriesRequired is located in index1 of this array.
-        if($calArray==null)
+        if($calArray[1]==null)
         {
             return redirect('/bmi');
         }
@@ -368,7 +368,7 @@ class CalculateController extends Controller
         $user = $request->user()->name;
         $calArray=$this->calculateCalories($user);
         //$caloriesRequired is located in index1 of this array.
-        if($calArray==null)
+        if($calArray[1]==null)
         {
             return redirect('/bmi');
         }
@@ -418,7 +418,7 @@ class CalculateController extends Controller
 
         $calArray=$this->calculateCalories($user);
         //$caloriesRequired is located in index1 of this array.
-        if($calArray==null)
+        if($calArray[1]==null)
         {
             return redirect('/bmi');
         }
