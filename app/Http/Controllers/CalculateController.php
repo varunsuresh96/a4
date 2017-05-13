@@ -123,7 +123,9 @@ class CalculateController extends Controller
             to the bmi calculation page. This check is necessary for most functions because the required
             calculations cannot be performed unless the calories required has been calculated first.
         */
-        if($this->getCaloriesRequired($user)==null)
+        $calArray=$this->calculateCalories($user);
+        //$caloriesRequired is located in index1 of this array.
+        if($calArray==null)
         {
             return redirect('/bmi');
         }
@@ -142,7 +144,9 @@ class CalculateController extends Controller
     public function food(Request $request)
     {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null)
+        $calArray=$this->calculateCalories($user);
+        //$caloriesRequired is located in index1 of this array.
+        if($calArray==null)
         {
             return redirect('/bmi');
         }
@@ -169,7 +173,9 @@ class CalculateController extends Controller
     public function newFood(Request $request)
     {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null)
+        $calArray=$this->calculateCalories($user);
+        //$caloriesRequired is located in index1 of this array.
+        if($calArray==null)
         {
             return redirect('/bmi');
         }
@@ -179,7 +185,9 @@ class CalculateController extends Controller
     public function newFoodAdded(Request $request)
     {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null)
+        $calArray=$this->calculateCalories($user);
+        //$caloriesRequired is located in index1 of this array.
+        if($calArray==null)
         {
             return redirect('/bmi');
         }
@@ -211,7 +219,9 @@ class CalculateController extends Controller
     public function deleteFood(Request $request)
     {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null)
+        $calArray=$this->calculateCalories($user);
+        //$caloriesRequired is located in index1 of this array.
+        if($calArray==null)
         {
             return redirect('/bmi');
         }
@@ -228,7 +238,9 @@ class CalculateController extends Controller
     public function foodDeleted(Request $request)
     {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null)
+        $calArray=$this->calculateCalories($user);
+        //$caloriesRequired is located in index1 of this array.
+        if($calArray==null)
         {
             return redirect('/bmi');
         }
@@ -246,7 +258,7 @@ class CalculateController extends Controller
 
         //Detach the food from the user and then delete it from the database.
         $users = User::where('name','=',$user)->first();
-        $users->foods()->detach();
+        $users->foods()->detach($foodId);
         $users->save();
         $food->delete();
 
@@ -259,7 +271,9 @@ class CalculateController extends Controller
     public function exercise(Request $request)
     {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null)
+        $calArray=$this->calculateCalories($user);
+        //$caloriesRequired is located in index1 of this array.
+        if($calArray==null)
         {
             return redirect('/bmi');
         }
@@ -284,7 +298,9 @@ class CalculateController extends Controller
     public function newExercise(Request $request)
     {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null)
+        $calArray=$this->calculateCalories($user);
+        //$caloriesRequired is located in index1 of this array.
+        if($calArray==null)
         {
             return redirect('/bmi');
         }
@@ -295,7 +311,9 @@ class CalculateController extends Controller
     public function newExerciseAdded(Request $request)
     {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null)
+        $calArray=$this->calculateCalories($user);
+        //$caloriesRequired is located in index1 of this array.
+        if($calArray==null)
         {
             return redirect('/bmi');
         }
@@ -329,7 +347,9 @@ class CalculateController extends Controller
     public function deleteExercise(Request $request)
     {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null)
+        $calArray=$this->calculateCalories($user);
+        //$caloriesRequired is located in index1 of this array.
+        if($calArray==null)
         {
             return redirect('/bmi');
         }
@@ -346,7 +366,9 @@ class CalculateController extends Controller
     public function exerciseDeleted(Request $request)
     {
         $user = $request->user()->name;
-        if($this->getCaloriesRequired($user)==null)
+        $calArray=$this->calculateCalories($user);
+        //$caloriesRequired is located in index1 of this array.
+        if($calArray==null)
         {
             return redirect('/bmi');
         }
@@ -369,18 +391,11 @@ class CalculateController extends Controller
         //Detach exercise from user and then delete the exercise.
         $users->exercises()->detach();
         $users->save();
-        $exercise->delete();
+        $exercise->delete($exerciseId);
 
         return view('bmi.exerciseDeleted')->with([
             'exercise' => $exercise
         ]);
-    }
-
-    //This function returns the calories required for the user who is currently logged in.
-    public function getCaloriesRequired($user)
-    {
-        $caloriesRequired=User::where('name','=',$user)->pluck('caloriesRequired');
-        return $caloriesRequired[0];
     }
 
     //This function redirects user if he tries to access /login while he is already logged in.

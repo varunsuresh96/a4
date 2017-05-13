@@ -11,10 +11,16 @@
         <fieldset>
             <div class="form-group">
                 <label for="name">*Username</label><br>
-                <input id="name" type="text" autocomplete="off"  autofocus class="form-control" name="name" value="{{ old('name') }}">
+                <input id="name" type="text" autocomplete="off"  autofocus class="form-control" name="name" value="{{ old('name') }}"><br><br>
 
-                @if($errors->has('name'))
-                    <div class="error">{{ $errors->first('name') }}</div>
+                @if($errors->get('name'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->get('name') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
             </div>
 
@@ -22,8 +28,14 @@
                 <label for="password">Password</label><br>
                 <input id="password" type="password" autocomplete="off" class="form-control" name="password">
 
-                @if ($errors->has('password'))
-                    <div class="error">{{ $errors->first('email') }}</div>
+                @if($errors->get('password'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->get('password') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
             </div>
 

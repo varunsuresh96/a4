@@ -14,18 +14,17 @@
             <div class="form-group">
                 <label for='weight'>* Weight(lbs)</label>
                 <input type='text' id='weight' name='weight'  placeholder='Weight' autocomplete='off' class="form-control" value='{{ $weight or old('weight') }}'><br>
+                <!-- If there are any error messages, print them right after the input field. -->
+                @if($errors->get('weight'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->get('weight') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
-
-            <!-- If there are any error messages, print them right after the input field. -->
-            @if($errors->get('weight'))
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach($errors->get('weight') as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
 
             <div class="form-group">
                 <label for='height'>* Height(inches)</label>

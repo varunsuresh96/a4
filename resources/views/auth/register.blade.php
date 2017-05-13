@@ -10,30 +10,50 @@
         <fieldset>
             <div class="form-group">
                 <label for="name">* Name</label><br>
-                <input id="name" type="text" autocomplete="off" autofocus class="form-control" name="name" value="{{ old('name') }}">
+                <input id="name" type="text" autocomplete="off" autofocus class="form-control" name="name" value="{{ old('name') }}"><br><br>
 
-                @if($errors->has('name'))
-                    <span class="help-block">
-                        <div class="error">{{ $errors->first('name') }}</div>
-                    </span>
+                @if($errors->get('name'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->get('name') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
             </div>
 
             <div class="form-group">
                 <label for="password">* Password (min: 6)</label><br>
-                <input id="password" type="password" autocomplete="off" class="form-control" name="password">
+                <input id="password" type="password" autocomplete="off" class="form-control" name="password"><br><br>
 
-                @if($errors->has('password'))
-                    <div class="error">{{ $errors->first('password') }}</div>
+                @if($errors->get('password'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->get('password') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
             </div>
 
             <div class="form-group">
                 <label for="password-confirm">* Confirm Password</label><br>
-                <input id="password-confirm" type="password" autocomplete="off" class="form-control" name="password_confirmation">
+                <input id="password-confirm" type="password" autocomplete="off" class="form-control" name="password_confirmation"><br><br>
+
+                @if($errors->get('password_confirmation'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->get('password_confirmation') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
-            <br>
-            <button type="submit" class="btn btn-primary">Register</button>
+
+            <button type="submit" class="btn btn-primary">Register</button><br><br>
         </fieldset>
     </form>
 @endsection
